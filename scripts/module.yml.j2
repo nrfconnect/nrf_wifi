@@ -1,0 +1,16 @@
+# Auto-generated file, do not edit, use update_wifi_fw.py to update
+name: hal_nordic
+build:
+  cmake-ext: True
+  kconfig-ext: True
+blobs:
+{% for _ , blob in blobs.items() %}
+    - path: {{ blob.path }}
+      sha256: {{ blob.sha256 }}
+      type: img
+      version: '{{ blob.version }}'
+      license-path: ./LICENSE.txt
+      url: {{ blob.url }}
+      description: {{ blob.description }}
+      doc-url: {{ blob.doc_url }}
+{% endfor %}
