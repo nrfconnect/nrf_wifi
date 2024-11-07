@@ -9,8 +9,8 @@
  * for the Wi-Fi driver.
  */
 
-#include "list.h"
-#include "queue.h"
+#include "utils/inc/list.h"
+#include "utils/inc/queue.h"
 
 void *nrf_wifi_utils_q_alloc(void)
 {

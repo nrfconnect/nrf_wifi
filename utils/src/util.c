@@ -9,7 +9,7 @@
  * Wi-Fi driver.
  */
 
-#include <util.h>
+#include "utils/inc/util.h"
 #include "host_rpu_data_if.h"
 
 int nrf_wifi_utils_hex_str_to_val(unsigned char *hex_arr,
