@@ -16,8 +16,13 @@
 #include "lmac_if_common.h"
 #include "host_rpu_common_if.h"
 
-/* To reduce HEAP maximum usage */
-#define MAX_PATCH_CHUNK_SIZE 8192
+/* Firmware patches are downloaded to the RPU in chunks to cap the peak heap
+ * usage and to keep each bus transfer within the host SoC limits. The chunk
+ * must fit both the SPI/QSPI EasyDMA MAXCNT and any DMA bounce region used by
+ * the bus driver. The smallest of these across the supported SoCs is 4 KB
+ * (nRF54H20 cpuapp DMA region), so default to that and let it be tuned down.
+ */
+#define MAX_PATCH_CHUNK_SIZE NRF70_PATCH_DL_CHUNK_SIZE
 #ifndef ARRAY_SIZE
 #define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
 #endif /* ARRAY_SIZE */
