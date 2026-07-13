@@ -10,6 +10,6 @@
 # automatically requested for review, but you can manually
 # add others as needed.
 
-*                                @krish2718 @sachinthegreen @rado17 @jukkar
-/fw_if/umac_if/inc/fw/           @udaynordic @rajb9 @srkanordic
-/hw_if/hal/inc/fw/               @udaynordic @rajb9 @srkanordic
+*                                @ncs-wcg-drivers
+/fw_if/umac_if/inc/fw/           @ncs-wcg-phy @ncs-wcg-umac @ncs-wcg-lmac
+/hw_if/hal/inc/fw/               @ncs-wcg-phy @ncs-wcg-umac @ncs-wcg-lmac
