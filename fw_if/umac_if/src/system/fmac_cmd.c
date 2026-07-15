@@ -95,7 +95,7 @@ enum nrf_wifi_status umac_cmd_sys_init(struct nrf_wifi_fmac_dev_ctx *fmac_dev_ct
 	umac_cmd_data->keep_alive_enable = KEEP_ALIVE_ENABLED;
 	umac_cmd_data->keep_alive_period = NRF_WIFI_KEEPALIVE_PERIOD_S;
 	nrf_wifi_osal_log_dbg("Keepalive enabled with period %d",
-				   umac_cmd_data->keepalive_period);
+				   umac_cmd_data->keep_alive_period);
 #endif /* NRF_WIFI_FEAT_KEEPALIVE */
 
 	nrf_wifi_osal_mem_cpy(umac_cmd_data->rx_buf_pools,
