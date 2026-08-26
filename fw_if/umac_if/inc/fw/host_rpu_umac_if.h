@@ -16,12 +16,9 @@
 #include "host_rpu_data_if.h"
 #include "host_rpu_sys_if.h"
 
-#include "common/pack_def.h"
+#include <common/pack_def.h>
 
 #define MAX_NRF_WIFI_UMAC_CMD_SIZE 400
-
-#define IEEE80211_STYPE_DISASSOC    0x00A0
-#define IEEE80211_STYPE_DEAUTH      0x00C0
 
 /**
  * @brief The host can send the following commands to the RPU.
@@ -148,6 +145,14 @@ enum nrf_wifi_umac_commands {
 	NRF_WIFI_UMAC_CMD_CONFIG_QUIET_PERIOD,
 	/** Command to specify power save exit strategy */
 	NRF_WIFI_UMAC_CMD_PS_EXIT_STRATEGY,
+	/** Add DMS @ref nrf_wifi_umac_cmd_req_add_dms */
+	NRF_WIFI_UMAC_CMD_REQ_ADD_DMS,
+	/** Remove DMS @ref nrf_wifi_umac_cmd_req_remove_dms */
+	NRF_WIFI_UMAC_CMD_REQ_REMOVE_DMS,
+	/** Change DMS @ref nrf_wifi_umac_cmd_req_change_dms */
+	NRF_WIFI_UMAC_CMD_REQ_CHANGE_DMS,
+	/** Request a WNM DMS setup @ref nrf_wifi_umac_cmd_config_dms */
+	NRF_WIFI_UMAC_CMD_REQ_CONFIG_WNM_DMS,
 };
 
  /**
@@ -243,10 +248,18 @@ enum nrf_wifi_umac_events {
 	NRF_WIFI_UMAC_EVENT_MCAST_FILTER,
 	/** send connection information @ref nrf_wifi_umac_event_conn_info. */
 	NRF_WIFI_UMAC_EVENT_GET_CONNECTION_INFO,
-	/** nrf_wifi_umac_event_power_save_info */
-	NRF_WIFI_UMAC_EVENT_GET_POWER_SAVE_INFO
+	/** @ref nrf_wifi_umac_event_power_save_info */
+	NRF_WIFI_UMAC_EVENT_GET_POWER_SAVE_INFO,
+	/** Send DMS add response information @ref nrf_wifi_umac_cmd_req_add_dms */
+	NRF_WIFI_UMAC_EVENT_REQ_ADD_DMS,
+	/** Send DMS remove response information @ref nrf_wifi_umac_cmd_req_remove_dms */
+	NRF_WIFI_UMAC_EVENT_REQ_REMOVE_DMS,
+	/** Send DMS terminate information @ref nrf_wifi_umac_event_terminate_dms */
+	NRF_WIFI_UMAC_EVENT_TERMINATE_DMS,
+	/** Send DMS response information */
+	NRF_WIFI_UMAC_EVENT_WNM_DMS,
 };
-
+#define	IMG_UMAC_EVENT_MCAST_FILTER 298
 /**
  * @brief Represents the values that can be used to specify the frequency band.
  *
@@ -687,6 +700,7 @@ struct nrf_wifi_channel {
 
 #define NRF_WIFI_SCAN_MAX_NUM_SSIDS 2
 #define NRF_WIFI_SCAN_MAX_NUM_FREQUENCIES 64
+#define MAX_NUM_CHANNELS 42
 
 #define NRF_WIFI_SCAN_BAND_2GHZ	(1 << 0)
 #define NRF_WIFI_SCAN_BAND_5GHZ	(1 << 1)
@@ -1130,6 +1144,24 @@ struct nrf_wifi_umac_key_info {
 	unsigned char key_idx;
 } __NRF_WIFI_PKD;
 
+#define NRF_WIFI_CMD_GET_KEY_MAC_ADDR_VALID (1 << 0)
+#define NRF_WIFI_CMD_GET_KEY_KEY_IDX_VALID (1 << 1)
+
+struct nrf_wifi_umac_cmd_get_key {
+	struct nrf_wifi_umac_hdr umac_hdr;
+	unsigned int valid_fields;
+	unsigned char mac_addr[NRF_WIFI_ETH_ADDR_LEN];
+	unsigned char key_idx;
+} __NRF_WIFI_PKD;
+
+#define NRF_WIFI_EVENT_GET_KEY_MAC_ADDR_VALID (1 << 0)
+
+struct nrf_wifi_umac_event_get_key {
+	struct nrf_wifi_umac_hdr umac_hdr;
+	unsigned int valid_fields;
+	struct nrf_wifi_umac_key_info key_info;
+	unsigned char mac_addr[NRF_WIFI_ETH_ADDR_LEN];
+} __NRF_WIFI_PKD;
 
 
 /**
@@ -1836,7 +1868,7 @@ struct nrf_wifi_supported_channels {
 
 } __NRF_WIFI_PKD;
 
-#define NRF_WIFI_OPER_CLASSES_MAX_LEN 64
+#define NRF_WIFI_SUPPORTED_OPER_CLASSES_MAX_LEN 64
 
 /**
  * @brief Operating classes information.
@@ -1845,7 +1877,7 @@ struct nrf_wifi_supported_oper_classes {
 	/** length */
 	unsigned int supported_oper_classes_len;
 	/** oper_class info*/
-	unsigned char supported_oper_classes[NRF_WIFI_OPER_CLASSES_MAX_LEN];
+	unsigned char supported_oper_classes[NRF_WIFI_SUPPORTED_OPER_CLASSES_MAX_LEN];
 
 } __NRF_WIFI_PKD;
 
@@ -2379,7 +2411,6 @@ enum nrf_wifi_twt_setup_cmd_type {
 
 #define NRF_WIFI_TWT_RESP_RECEIVED 0
 #define NRF_WIFI_TWT_RESP_NOT_RECEIVED 1
-#define NRF_WIFI_INVALID_TWT_WAKE_INTERVAL 3
 
 /**
  * @brief This structure describes the TWT information.
@@ -2440,6 +2471,7 @@ struct nrf_wifi_umac_cmd_config_twt {
 
 #define INVALID_TIME 1
 #define TRIGGER_NOT_RECEIVED 2
+#define NRF_WIFI_INVALID_TWT_WAKE_INTERVAL 3
 
 /**
  * @brief This structure represents the TWT delete information.
@@ -2895,6 +2927,8 @@ struct nrf_wifi_umac_event_conn_info {
 	unsigned char twt_capable;
 	/** Refer &enum link_mode */
 	unsigned char linkmode;
+	/** DMS supported or not */
+	unsigned char dms_capable;
 } __NRF_WIFI_PKD;
 
 
@@ -3514,17 +3548,22 @@ struct nrf_wifi_cmd_req_set_reg {
 	unsigned char nrf_wifi_alpha2[NRF_WIFI_COUNTRY_CODE_LEN];
 } __NRF_WIFI_PKD;
 
-/**
- * @brief This structure represents the event that is generated when the regulatory domain
- * is modified or updated. It contains the new regulatory domain information.
- *
- */
+struct nrf_wifi_event_send_beacon_hint {
+	struct nrf_wifi_umac_hdr umac_hdr;
+	struct nrf_wifi_event_channel channel_before;
+	struct nrf_wifi_event_channel channel_after;
+
+} __NRF_WIFI_PKD;
+
+#define NRF_WIFI_EVNT_WIPHY_SELF_MANAGED (1 << 0)
+
 struct nrf_wifi_event_regulatory_change {
 	struct nrf_wifi_umac_hdr umac_hdr;
 	unsigned short nrf_wifi_flags;
 	signed int intr;
 	signed char regulatory_type;
-	unsigned char nrf_wifi_alpha2[2];
+	unsigned char nrf_wifi_alpha2[NRF_WIFI_COUNTRY_CODE_LEN];
+
 } __NRF_WIFI_PKD;
 /**
  * @brief This structure represents the status code for a command. It is used to indicate
@@ -3563,6 +3602,137 @@ struct nrf_wifi_cmd_ps_exit_strategy {
 	struct nrf_wifi_umac_hdr umac_hdr;
 	/** Power save exit strategy */
 	unsigned char ps_exit_strategy;
+} __NRF_WIFI_PKD;
+
+#define NRF_WIFI_DMS_RESP_RECEIVED 0
+#define NRF_WIFI_DMS_RESP_NOT_RECEIVED 1
+
+/**
+ * @brief The Host can send the following DMS request type events to rpu.
+ *
+ */
+enum nrf_wifi_dms_req_type {
+	NRF_WIFI_DMS_REQ_ADD,
+	NRF_WIFI_DMS_REQ_REMOVE,
+	NRF_WIFI_DMS_REQ_CHANGE,
+};
+
+/**
+ * @brief The RPU can send the following DMS events to host. These correspond to
+ *  the Response Type field of the DMS Status field in a DMS Response frame.
+ *
+ */
+enum nrf_wifi_dms_event_type {
+	NRF_WIFI_DMS_EVENT_ACCEPT,
+	NRF_WIFI_DMS_EVENT_REJECT,
+	NRF_WIFI_DMS_EVENT_TERMINATE,
+	NRF_WIFI_DMS_EVENT_INVALID
+};
+
+
+
+/**
+ * @brief This structure describes the DMS information.
+ *
+ */
+struct nrf_wifi_umac_config_dms_info {
+	/** Dialog token, used to map requests to responses */
+	unsigned char dialog_token;
+	/** DMSID, used to identifying the DMS for the group addressed frame */
+	unsigned char dmsid;
+	/** request type (0- ADD, 1-Remove, 2- Change) */
+	unsigned char req_type;
+	/** User priority */
+	unsigned char up;
+	/** Tclas type */
+	unsigned char tclas_type;
+	/** Tclas mask */
+	unsigned char tclas_mask;
+	/** Tclas category 4 elements */
+	/** Version */
+	unsigned char version;
+	/** Source ip address */
+	unsigned int src_ip_addr;
+	/** Destination ip address */
+	unsigned int dest_ip_addr;
+	/** Source port */
+	unsigned short src_port;
+	/** Destination port */
+	unsigned short dest_port;
+	/** DSCP */
+	unsigned char dscp;
+	/** Protocol */
+	unsigned char protocol;
+	/** 0->not received 1->received */
+	unsigned char dms_resp_status;
+} __NRF_WIFI_PKD;
+
+struct nrf_wifi_umac_cmd_req_add_dms {
+	/** Header @ref nrf_wifi_umac_hdr */
+	struct nrf_wifi_umac_hdr umac_hdr;
+	/** DMS add info @ref nrf_wifi_umac_config_dms_info */
+	struct nrf_wifi_umac_config_dms_info info;
+} __NRF_WIFI_PKD;
+
+#define INVALID_TIME 1
+#define TRIGGER_NOT_RECEIVED 2
+
+/**
+ * @brief This structure represents the DMS remove information.
+ *
+ */
+
+struct nrf_wifi_umac_cmd_req_remove_dms {
+	/** Header @ref nrf_wifi_umac_hdr */
+	struct nrf_wifi_umac_hdr umac_hdr;
+	/** DMS info @ref nrf_wifi_umac_config_dms_info */
+	struct nrf_wifi_umac_config_dms_info info;
+	/** DMS Id  */
+	unsigned char dms_id;
+	/** reason for teardown */
+	unsigned char reason_code;
+} __NRF_WIFI_PKD;
+
+/**
+ * @brief This structure defines the command used to change a DMS session
+ *
+ */
+
+struct nrf_wifi_umac_cmd_req_change_dms {
+	/** Header @ref nrf_wifi_umac_hdr */
+	struct nrf_wifi_umac_hdr umac_hdr;
+	/** DMS info @ref nrf_wifi_umac_config_dms_info */
+	struct nrf_wifi_umac_config_dms_info info;
+} __NRF_WIFI_PKD;
+
+/**
+ * @brief This structure defines an event used to indicate to the host
+ * when terminate event is received.
+ *
+ */
+
+struct nrf_wifi_umac_event_terminate_dms {
+        /** Header @ref nrf_wifi_umac_hdr */
+        struct nrf_wifi_umac_hdr umac_hdr;
+	/** DMS info @ref nrf_wifi_umac_config_dms_info */
+	struct nrf_wifi_umac_config_dms_info info;
+} __NRF_WIFI_PKD;
+
+/**
+ * @brief This structure defines the parameters required to request a DMS setup.
+ *  The same structure carries the NRF_WIFI_UMAC_EVENT_WNM_DMS event back to the
+ *  host, in which case event_type and dms_resp_status are also populated.
+ *
+ */
+struct nrf_wifi_umac_cmd_config_dms {
+	/** Header @ref nrf_wifi_umac_hdr */
+	struct nrf_wifi_umac_hdr umac_hdr;
+	/** DMS request info @ref nrf_wifi_umac_config_dms_info */
+	struct nrf_wifi_umac_config_dms_info info;
+	/** Event only: see &enum nrf_wifi_dms_event_type */
+	signed int event_type;
+	/** Event only: NRF_WIFI_DMS_RESP_RECEIVED or NRF_WIFI_DMS_RESP_NOT_RECEIVED */
+	unsigned char dms_resp_status;
 } __NRF_WIFI_PKD;
 
 #endif /* __HOST_RPU_UMAC_IF_H */

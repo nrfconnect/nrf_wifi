@@ -130,7 +130,7 @@ struct nrf_wifi_fmac_reg_info {
 	/** Regulatory channels count*/
 	unsigned int reg_chan_count;
 	/** Regulatory channel attributes */
-	struct nrf_wifi_get_reg_chn_info reg_chan_info[MAX_NUM_REG_CHANELS];
+	struct nrf_wifi_get_reg_chn_info *reg_chan_info;
 };
 
 /**

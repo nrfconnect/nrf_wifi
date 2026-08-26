@@ -281,6 +281,21 @@ struct nrf_wifi_fmac_callbk_fns {
 	void (*reg_change_callbk_fn)(void *os_vif_ctx,
 				     struct nrf_wifi_event_regulatory_change *reg_change,
 				     unsigned int event_len);
+
+	/** Callback function to be called when a DMS add request response is received. */
+	void (*req_add_dms_callbk_fn)(void *if_priv,
+				      struct nrf_wifi_umac_cmd_req_add_dms *add_dms_event_info,
+				      unsigned int event_len);
+
+	/** Callback function to be called when a DMS remove response is received. */
+	void (*req_remove_dms_callbk_fn)(void *if_priv,
+					 struct nrf_wifi_umac_cmd_req_remove_dms *remove_dms_event_info,
+					 unsigned int event_len);
+
+	/** Callback function to be called when a DMS session is terminated by the AP. */
+	void (*terminate_dms_callbk_fn)(void *if_priv,
+					struct nrf_wifi_umac_event_terminate_dms *terminate_dms_info,
+					unsigned int event_len);
 };
 
 #if defined(NRF70_STA_MODE) || defined(__DOXYGEN__)

@@ -1003,6 +1003,54 @@ enum nrf_wifi_status nrf_wifi_sys_fmac_set_ps_exit_strategy(
 						unsigned char if_idx,
 						unsigned int ps_exit_strategy);
 
+/**
+ * @brief DMS add command
+ * @param fmac_dev_ctx Pointer to the UMAC IF context for a RPU WLAN device.
+ * @param if_idx Index of the interface on which the DMS parameters be set.
+ * @param dms_info DMS parameters.
+ *
+ * This function is used to send a command to the RPU firmware to:
+ *	    - Configure DMS add request specific parameters.
+ *
+ *@retval	NRF_WIFI_STATUS_SUCCESS On success
+ *@retval	NRF_WIFI_STATUS_FAIL On failure to execute command
+ */
+enum nrf_wifi_status nrf_wifi_sys_fmac_req_add_dms(void *fmac_dev_ctx,
+					unsigned char if_idx,
+					struct nrf_wifi_umac_config_dms_info *dms_info);
+
+/**
+ * @brief DMS remove command
+ * @param fmac_dev_ctx Pointer to the UMAC IF context for a RPU WLAN device.
+ * @param if_idx Index of the interface on which the DMS parameters are to be set.
+ * @param dms_info DMS parameters.
+ *
+ * This function is used to send a command to the RPU firmware to:
+ *	    - Tear down an existing DMS session.
+ *
+ *@retval	NRF_WIFI_STATUS_SUCCESS On success
+ *@retval	NRF_WIFI_STATUS_FAIL On failure to execute command
+ */
+enum nrf_wifi_status nrf_wifi_sys_fmac_req_remove_dms(void *fmac_dev_ctx,
+					unsigned char if_idx,
+					struct nrf_wifi_umac_config_dms_info *dms_info);
+
+/**
+ * @brief DMS change command
+ * @param fmac_dev_ctx Pointer to the UMAC IF context for a RPU WLAN device.
+ * @param if_idx Index of the interface on which the DMS parameters are to be set.
+ * @param dms_info DMS parameters.
+ *
+ * This function is used to send a command to the RPU firmware to:
+ *	    - Change the parameters of an existing DMS session.
+ *
+ *@retval	NRF_WIFI_STATUS_SUCCESS On success
+ *@retval	NRF_WIFI_STATUS_FAIL On failure to execute command
+ */
+enum nrf_wifi_status nrf_wifi_sys_fmac_req_change_dms(void *fmac_dev_ctx,
+					unsigned char if_idx,
+					struct nrf_wifi_umac_config_dms_info *dms_info);
+
 #ifdef NRF70_RAW_DATA_TX
 /**
  * @brief Transmit a raw unaltered frame to the RPU.
