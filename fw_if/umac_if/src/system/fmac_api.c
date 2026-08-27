@@ -3433,6 +3433,129 @@ out:
 
 	return status;
 }
+
+enum nrf_wifi_status nrf_wifi_sys_fmac_req_add_dms(void *dev_ctx,
+					unsigned char if_idx,
+					struct nrf_wifi_umac_config_dms_info *dms_info)
+{
+	enum nrf_wifi_status status = NRF_WIFI_STATUS_FAIL;
+	struct nrf_wifi_umac_cmd_req_add_dms *req_dms_add_cmd = NULL;
+	struct nrf_wifi_fmac_dev_ctx *fmac_dev_ctx = NULL;
+
+	if (!dev_ctx || !dms_info) {
+		goto out;
+	}
+
+	fmac_dev_ctx = dev_ctx;
+
+	req_dms_add_cmd = nrf_wifi_osal_mem_zalloc(sizeof(*req_dms_add_cmd));
+
+	if (!req_dms_add_cmd) {
+		nrf_wifi_osal_log_err("%s: Unable to allocate memory",
+				      __func__);
+		goto out;
+	}
+
+	nrf_wifi_osal_mem_cpy(&req_dms_add_cmd->info,
+			      dms_info,
+			      sizeof(req_dms_add_cmd->info));
+
+	req_dms_add_cmd->umac_hdr.cmd_evnt = NRF_WIFI_UMAC_CMD_REQ_ADD_DMS;
+	req_dms_add_cmd->umac_hdr.ids.wdev_id = if_idx;
+	req_dms_add_cmd->umac_hdr.ids.valid_fields |= NRF_WIFI_INDEX_IDS_WDEV_ID_VALID;
+
+	status = umac_cmd_cfg(fmac_dev_ctx,
+			      req_dms_add_cmd,
+			      sizeof(*req_dms_add_cmd));
+out:
+	if (req_dms_add_cmd) {
+		nrf_wifi_osal_mem_free(req_dms_add_cmd);
+	}
+
+	return status;
+}
+
+enum nrf_wifi_status nrf_wifi_sys_fmac_req_remove_dms(void *dev_ctx,
+					unsigned char if_idx,
+					struct nrf_wifi_umac_config_dms_info *dms_info)
+{
+	enum nrf_wifi_status status = NRF_WIFI_STATUS_FAIL;
+	struct nrf_wifi_umac_cmd_req_remove_dms *req_remove_dms_cmd = NULL;
+	struct nrf_wifi_fmac_dev_ctx *fmac_dev_ctx = NULL;
+
+	if (!dev_ctx || !dms_info) {
+		goto out;
+	}
+
+	fmac_dev_ctx = dev_ctx;
+
+	req_remove_dms_cmd = nrf_wifi_osal_mem_zalloc(sizeof(*req_remove_dms_cmd));
+
+	if (!req_remove_dms_cmd) {
+		nrf_wifi_osal_log_err("%s: Unable to allocate memory",
+				      __func__);
+		goto out;
+	}
+
+	nrf_wifi_osal_mem_cpy(&req_remove_dms_cmd->info,
+			      dms_info,
+			      sizeof(req_remove_dms_cmd->info));
+
+	req_remove_dms_cmd->umac_hdr.cmd_evnt = NRF_WIFI_UMAC_CMD_REQ_REMOVE_DMS;
+	req_remove_dms_cmd->umac_hdr.ids.wdev_id = if_idx;
+	req_remove_dms_cmd->umac_hdr.ids.valid_fields |= NRF_WIFI_INDEX_IDS_WDEV_ID_VALID;
+
+	status = umac_cmd_cfg(fmac_dev_ctx,
+			      req_remove_dms_cmd,
+			      sizeof(*req_remove_dms_cmd));
+out:
+	if (req_remove_dms_cmd) {
+		nrf_wifi_osal_mem_free(req_remove_dms_cmd);
+	}
+
+	return status;
+}
+
+enum nrf_wifi_status nrf_wifi_sys_fmac_req_change_dms(void *dev_ctx,
+					unsigned char if_idx,
+					struct nrf_wifi_umac_config_dms_info *dms_info)
+{
+	enum nrf_wifi_status status = NRF_WIFI_STATUS_FAIL;
+	struct nrf_wifi_umac_cmd_req_change_dms *req_change_dms_cmd = NULL;
+	struct nrf_wifi_fmac_dev_ctx *fmac_dev_ctx = NULL;
+
+	if (!dev_ctx || !dms_info) {
+		goto out;
+	}
+
+	fmac_dev_ctx = dev_ctx;
+
+	req_change_dms_cmd = nrf_wifi_osal_mem_zalloc(sizeof(*req_change_dms_cmd));
+
+	if (!req_change_dms_cmd) {
+		nrf_wifi_osal_log_err("%s: Unable to allocate memory",
+				      __func__);
+		goto out;
+	}
+
+	nrf_wifi_osal_mem_cpy(&req_change_dms_cmd->info,
+			      dms_info,
+			      sizeof(req_change_dms_cmd->info));
+
+	req_change_dms_cmd->umac_hdr.cmd_evnt = NRF_WIFI_UMAC_CMD_REQ_CHANGE_DMS;
+	req_change_dms_cmd->umac_hdr.ids.wdev_id = if_idx;
+	req_change_dms_cmd->umac_hdr.ids.valid_fields |= NRF_WIFI_INDEX_IDS_WDEV_ID_VALID;
+
+	status = umac_cmd_cfg(fmac_dev_ctx,
+			      req_change_dms_cmd,
+			      sizeof(*req_change_dms_cmd));
+out:
+	if (req_change_dms_cmd) {
+		nrf_wifi_osal_mem_free(req_change_dms_cmd);
+	}
+
+	return status;
+}
 #endif /* NRF70_STA_MODE */
 
 enum nrf_wifi_status nrf_wifi_sys_fmac_stats_get(struct nrf_wifi_fmac_dev_ctx *fmac_dev_ctx,

@@ -816,6 +816,36 @@ static enum nrf_wifi_status umac_event_ctrl_process(struct nrf_wifi_fmac_dev_ctx
 					      __func__,
 					      umac_hdr->cmd_evnt);
 		break;
+	case NRF_WIFI_UMAC_EVENT_REQ_ADD_DMS:
+		if (callbk_fns->req_add_dms_callbk_fn)
+			callbk_fns->req_add_dms_callbk_fn(vif_ctx->os_vif_ctx,
+							  event_data,
+							  event_len);
+		else
+			nrf_wifi_osal_log_err("%s: No callback registered for event %d",
+					      __func__,
+					      umac_hdr->cmd_evnt);
+		break;
+	case NRF_WIFI_UMAC_EVENT_REQ_REMOVE_DMS:
+		if (callbk_fns->req_remove_dms_callbk_fn)
+			callbk_fns->req_remove_dms_callbk_fn(vif_ctx->os_vif_ctx,
+							     event_data,
+							     event_len);
+		else
+			nrf_wifi_osal_log_err("%s: No callback registered for event %d",
+					      __func__,
+					      umac_hdr->cmd_evnt);
+		break;
+	case NRF_WIFI_UMAC_EVENT_TERMINATE_DMS:
+		if (callbk_fns->terminate_dms_callbk_fn)
+			callbk_fns->terminate_dms_callbk_fn(vif_ctx->os_vif_ctx,
+							    event_data,
+							    event_len);
+		else
+			nrf_wifi_osal_log_err("%s: No callback registered for event %d",
+					      __func__,
+					      umac_hdr->cmd_evnt);
+		break;
 	case NRF_WIFI_UMAC_EVENT_NEW_WIPHY:
 		if (callbk_fns->event_get_wiphy)
 			callbk_fns->event_get_wiphy(vif_ctx->os_vif_ctx,
