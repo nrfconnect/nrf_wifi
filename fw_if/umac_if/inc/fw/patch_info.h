@@ -62,7 +62,7 @@ struct nrf70_fw_image_info {
 #define RPU_FAMILY         (1)
 #define RPU_MAJOR_VERSION   (2)
 #define RPU_MINOR_VERSION   (14)
-#define RPU_PATCH_VERSION   (10)
+#define RPU_PATCH_VERSION   (11)
 
 /**
  * @}
