@@ -1,0 +1,46 @@
+/**
+@mainpage nRF Wi-Fi low-level API
+
+This API documentation describes the OS-agnostic, low-level API for the Nordic
+Semiconductor nRF70 Series FullMAC Wi-Fi companion ICs.
+
+The API lets host software configure the radio processor unit (RPU), exchange
+management traffic with the firmware, and send or receive 802.11 frames without
+going through a specific operating system port. In the
+<a href="https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/index.html">
+nRF Connect SDK</a>, the same sources are integrated with Zephyr as the
+<a href="https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/drivers/wifi/index.html">
+nRF Wi-Fi driver</a>. Use the Zephyr networking stack unless you are porting the
+driver to another operating system.
+
+@section nrf_wifi_api_overview API structure
+
+The interface is split into shared and mode-specific parts:
+
+- @ref nrf_wifi_api_common "Common API" for initialization, deinitialization,
+  and helpers used in all operating modes.
+- @ref nrf_wifi_api "Wi-Fi mode API" for Station mode and future MAC modes
+  intended for normal product use.
+- @ref nrf_wifi_api_radio_test "Radio Test mode API" for RF validation
+  firmware.
+
+Select the API group that matches the firmware image loaded on the device. The
+common API must be used together with exactly one of the mode-specific groups.
+
+@section nrf_wifi_api_sources Source layout
+
+Header files are located under the ``fw_if/umac_if/inc/`` folder, with
+mode-specific subfolders.
+Hardware abstraction and bus access are located under the :file:`hw_if/` and
+:file:`os_if/` directories.
+The Zephyr-specific driver that wraps this library is located in the
+:file:`zephyr/drivers/wifi/nrf_wifi/` tree of the nRF Connect SDK.
+
+@section nrf_wifi_api_ncs More documentation
+
+For more information about product documentation, Kconfig options, samples, and
+driver architecture, see the
+<a href="https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/drivers/wifi/index.html">
+nRF Connect SDK Wi-Fi documentation</a>.
+
+*/
