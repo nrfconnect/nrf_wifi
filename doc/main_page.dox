@@ -31,10 +31,10 @@ common API must be used together with exactly one of the mode-specific groups.
 
 Header files are located under the ``fw_if/umac_if/inc/`` folder, with
 mode-specific subfolders.
-Hardware abstraction and bus access are located under the :file:`hw_if/` and
-:file:`os_if/` directories.
+Hardware abstraction and bus access are located under the ``hw_if/`` and
+``os_if/`` directories.
 The Zephyr-specific driver that wraps this library is located in the
-:file:`zephyr/drivers/wifi/nrf_wifi/` tree of the nRF Connect SDK.
+``zephyr/drivers/wifi/nrf_wifi/`` tree of the nRF Connect SDK.
 
 @section nrf_wifi_api_ncs More documentation
 
