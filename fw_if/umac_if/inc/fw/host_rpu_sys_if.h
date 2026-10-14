@@ -972,6 +972,8 @@ struct nrf_wifi_cmd_sys_init {
 	 *     upper layer and scan abort to the lower layer.
 	 */
 	unsigned char display_scan_abort_on_bss_limit;
+	/** Flag to prevent fallback from 802.11ac to lower Wi-Fi modes */
+	unsigned char nrf_wifi_11ac_downgrade_disable;
 } __NRF_WIFI_PKD;
 
 /**
