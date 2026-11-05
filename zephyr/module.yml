@@ -1,4 +1,4 @@
-# Generated from commit: 8dab0f962406ae744dc7dcada0d6705c8cc97a55
+# Generated from commit: 6c2ada37d94b7405846ef491484723d85e417d69
 # Auto-generated file, do not edit, use update_blobs.py to update
 name: nrf_wifi
 build:
@@ -7,46 +7,46 @@ build:
 blobs:
 
     - path: wifi_fw_bins/default/nrf70.bin
-      sha256: 53b9e148502ea555d11e7c8a3177009c94f2a35a5f42875b8dd7c13c7498bead
+      sha256: 9ea7a5857da370614f04ec85c0f687f0a7e3225f68357bb371ca98f5677b09c5
       type: img
-      version: '1.2.14.11'
+      version: '1.2.14.12'
       license-path: ./LICENSE.txt
-      url: https://github.com/nrfconnect/sdk-nrfxlib/raw/8dab0f962406ae744dc7dcada0d6705c8cc97a55/nrf_wifi/bin/zephyr/default/nrf70.bin
+      url: https://github.com/nrfconnect/sdk-nrfxlib/raw/6c2ada37d94b7405846ef491484723d85e417d69/nrf_wifi/bin/zephyr/default/nrf70.bin
       description: nRF70 Wi-Fi firmware for default mode
       doc-url: https://docs.nordicsemi.com/bundle/ps_nrf7000/page/chapters/notice/doc/notice_on_sw.html
 
     - path: wifi_fw_bins/scan_only/nrf70.bin
-      sha256: 34d8e47ad07142cd235abbfb68420a34f336eaf3af70566266cef91fb4bedc0b
+      sha256: 855fdced28a6445e5e750d9ba501a642cdcf9171fa1fd95bcd7307aa96392a42
       type: img
-      version: '1.2.14.11'
+      version: '1.2.14.12'
       license-path: ./LICENSE.txt
-      url: https://github.com/nrfconnect/sdk-nrfxlib/raw/8dab0f962406ae744dc7dcada0d6705c8cc97a55/nrf_wifi/bin/zephyr/scan_only/nrf70.bin
+      url: https://github.com/nrfconnect/sdk-nrfxlib/raw/6c2ada37d94b7405846ef491484723d85e417d69/nrf_wifi/bin/zephyr/scan_only/nrf70.bin
       description: nRF70 Wi-Fi firmware for scan_only mode
       doc-url: https://docs.nordicsemi.com/bundle/ps_nrf7000/page/chapters/notice/doc/notice_on_sw.html
 
     - path: wifi_fw_bins/radio_test/nrf70.bin
-      sha256: c39a528e3f96809768489eeafc0926205ce067a23335734885d3215d793e6789
+      sha256: 3688a63e4a8e0d223e667df470d6ec0f41e65a72013ecddd088ac472709a062f
       type: img
-      version: '1.2.14.11'
+      version: '1.2.14.12'
       license-path: ./LICENSE.txt
-      url: https://github.com/nrfconnect/sdk-nrfxlib/raw/8dab0f962406ae744dc7dcada0d6705c8cc97a55/nrf_wifi/bin/zephyr/radio_test/nrf70.bin
+      url: https://github.com/nrfconnect/sdk-nrfxlib/raw/6c2ada37d94b7405846ef491484723d85e417d69/nrf_wifi/bin/zephyr/radio_test/nrf70.bin
       description: nRF70 Wi-Fi firmware for radio_test mode
       doc-url: https://docs.nordicsemi.com/bundle/ps_nrf7000/page/chapters/notice/doc/notice_on_sw.html
 
     - path: wifi_fw_bins/system_with_raw/nrf70.bin
-      sha256: 2af9a2f2ed2a324478d1da0804bfccd7aa5b5153b72904369d07a3bf6a992417
+      sha256: 1cc51d68493d3525314f88111d570724bb9a2979c7e7643299b05155c7310534
       type: img
-      version: '1.2.14.11'
+      version: '1.2.14.12'
       license-path: ./LICENSE.txt
-      url: https://github.com/nrfconnect/sdk-nrfxlib/raw/8dab0f962406ae744dc7dcada0d6705c8cc97a55/nrf_wifi/bin/zephyr/system_with_raw/nrf70.bin
+      url: https://github.com/nrfconnect/sdk-nrfxlib/raw/6c2ada37d94b7405846ef491484723d85e417d69/nrf_wifi/bin/zephyr/system_with_raw/nrf70.bin
       description: nRF70 Wi-Fi firmware for system_with_raw mode
       doc-url: https://docs.nordicsemi.com/bundle/ps_nrf7000/page/chapters/notice/doc/notice_on_sw.html
 
     - path: wifi_fw_bins/offloaded_raw_tx/nrf70.bin
-      sha256: 75a62d796a5d46b683751ba6ac35f0a266f097dea28f17d3b407abda1a75b0b3
+      sha256: d4002bc3fcb8460a40261a917c815e8f22a1e56a3a30ca42cf944ee947579327
       type: img
-      version: '1.2.14.11'
+      version: '1.2.14.12'
       license-path: ./LICENSE.txt
-      url: https://github.com/nrfconnect/sdk-nrfxlib/raw/8dab0f962406ae744dc7dcada0d6705c8cc97a55/nrf_wifi/bin/zephyr/offloaded_raw_tx/nrf70.bin
+      url: https://github.com/nrfconnect/sdk-nrfxlib/raw/6c2ada37d94b7405846ef491484723d85e417d69/nrf_wifi/bin/zephyr/offloaded_raw_tx/nrf70.bin
       description: nRF70 Wi-Fi firmware for offloaded_raw_tx mode
       doc-url: https://docs.nordicsemi.com/bundle/ps_nrf7000/page/chapters/notice/doc/notice_on_sw.html
