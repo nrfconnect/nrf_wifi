@@ -256,6 +256,8 @@ struct nrf_wifi_hal_dev_ctx {
 	int wdt_irq_received;
 	/** Number of watchdog timer interrupts ignored */
 	int wdt_irq_ignored;
+	/** Host 802.11 power save enabled (ignore watchdog when false). */
+	bool host_wifi_ps_enabled;
 #endif /* NRF_WIFI_RPU_RECOVERY */
 #if defined(NRF_WIFI_LOW_POWER)  || defined(__DOXYGEN__)
 	/** RPU power state */

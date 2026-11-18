@@ -217,6 +217,14 @@ out:
 }
 #endif /* NRF_WIFI_LOW_POWER */
 
+#ifdef NRF_WIFI_RPU_RECOVERY
+void nrf_wifi_hal_set_host_wifi_ps_state(struct nrf_wifi_hal_dev_ctx *hal_dev_ctx, bool enabled)
+{
+	if (hal_dev_ctx) {
+		hal_dev_ctx->host_wifi_ps_enabled = enabled;
+	}
+}
+#endif /* NRF_WIFI_RPU_RECOVERY */
 
 static bool hal_rpu_hpq_is_empty(struct nrf_wifi_hal_dev_ctx *hal_dev_ctx,
 				 struct host_rpu_hpq *hpq)

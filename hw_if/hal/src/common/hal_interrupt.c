@@ -484,6 +484,10 @@ static inline bool is_rpu_recovery_needed(struct nrf_wifi_hal_dev_ctx *hal_dev_c
 	unsigned int rpu_sleep_opp_diff_ms = nrf_wifi_osal_time_elapsed_ms(
 		hal_dev_ctx->last_rpu_sleep_opp_time_ms);
 
+	if (!hal_dev_ctx->host_wifi_ps_enabled) {
+		return false;
+	}
+
 #ifdef NRF_WIFI_RPU_RECOVERY_DEBUG
 	nrf_wifi_osal_log_info(
 "RPU sleep opp diff: %d ms, last RPU sleep opp time: %lu",

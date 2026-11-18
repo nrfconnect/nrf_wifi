@@ -2919,6 +2919,11 @@ enum nrf_wifi_status nrf_wifi_sys_fmac_set_power_save(void *dev_ctx,
 	status = umac_cmd_cfg(fmac_dev_ctx,
 			      set_ps_cmd,
 			      sizeof(*set_ps_cmd));
+#ifdef NRF_WIFI_RPU_RECOVERY
+	if (status == NRF_WIFI_STATUS_SUCCESS && fmac_dev_ctx->hal_dev_ctx) {
+		nrf_wifi_hal_set_host_wifi_ps_state(fmac_dev_ctx->hal_dev_ctx, state);
+	}
+#endif /* NRF_WIFI_RPU_RECOVERY */
 out:
 	if (set_ps_cmd) {
 		nrf_wifi_osal_mem_free(set_ps_cmd);

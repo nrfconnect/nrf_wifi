@@ -188,6 +188,15 @@ enum nrf_wifi_status nrf_wifi_hal_get_rpu_ps_state(struct nrf_wifi_hal_dev_ctx *
 			int *rpu_ps_ctrl_state);
 #endif /* NRF_WIFI_LOW_POWER */
 
+#if defined(NRF_WIFI_RPU_RECOVERY) || defined(__DOXYGEN__)
+/**
+ * @brief Track host 802.11 power save for watchdog recovery policy.
+ *
+ * When disabled, watchdog interrupts do not trigger RPU recovery.
+ */
+void nrf_wifi_hal_set_host_wifi_ps_state(struct nrf_wifi_hal_dev_ctx *hal_dev_ctx, bool enabled);
+#endif /* NRF_WIFI_RPU_RECOVERY */
+
 /**
  * @brief Get the OTP information for the Wi-Fi HAL.
  *
